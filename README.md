@@ -1,6 +1,7 @@
 capistrano-crono
 ------------------------
- 
+[![Gem Version](https://badge.fury.io/rb/capistrano-crono.svg)](http://badge.fury.io/rb/capistrano-crono) 
+
 [Crono](https://github.com/plashchynski/crono/) integration for [Capistrano](https://github.com/capistrano/capistrano)
 
 ## Requirements
