@@ -3,6 +3,11 @@ capistrano-crono
  
 [Crono](https://github.com/plashchynski/crono/) integration for [Capistrano](https://github.com/capistrano/capistrano)
 
+## Requirements
+
+Capistrano 3.*
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
