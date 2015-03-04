@@ -1,0 +1,53 @@
+def pid_file_exists?(pid_file)
+  test(*("[ -f #{pid_file} ]").split(' '))
+end
+
+def process_exists?(pid_file)
+  pid_file_exists?(pid_file) and test(*("kill -0 $( cat #{pid_file} )").split(' '))
+end
+
+namespace :load do
+  task :defaults do
+    set :crono_pid, -> { File.join(shared_path, 'tmp', 'pids', 'crono.pid') }
+    set :crono_env, -> { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
+    set :crono_log, -> { File.join(shared_path, 'log', 'crono.log') }
+    set :crono_role, -> { :app }
+  end
+end
+
+namespace :crono do
+  desc "Start crono"
+  task :start do
+    on roles fetch(:crono_role) do
+      pid_file = fetch(:crono_pid)
+      args = []
+      args.push "--daemonize"
+      args.push "--pidfile #{pid_file}"
+      args.push "--logfile #{fetch(:crono_log)}"
+      args.push "--environment #{fetch(:crono_env)}"
+      within release_path do
+        execute(:bundle, :exec, :crono, args.compact.join(' ')) unless process_exists?(pid_file)
+      end
+    end
+  end
+
+  desc "Stop crono"
+  task :stop do
+    on roles fetch(:crono_role) do
+      if test("[ -d #{release_path} ]")
+        pid_file = fetch(:crono_pid)
+        execute("kill -TERM `cat #{pid_file}`") if process_exists?(pid_file)
+      end
+    end
+  end
+
+  desc 'Restart crono'
+  task :restart do
+    invoke 'crono:stop'
+    invoke 'crono:start'
+  end
+end
+
+after 'deploy:updated', 'crono:stop'
+after 'deploy:reverted', 'crono:stop'
+after 'deploy:published', 'crono:start'
