@@ -1,11 +1,3 @@
-def pid_file_exists?(pid_file)
-  test(*("[ -f #{pid_file} ]").split(' '))
-end
-
-def process_exists?(pid_file)
-  pid_file_exists?(pid_file) and test(*("kill -0 $( cat #{pid_file} )").split(' '))
-end
-
 namespace :load do
   task :defaults do
     set :crono_piddir, -> { File.join(shared_path, 'tmp', 'pids') }
