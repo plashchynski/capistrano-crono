@@ -36,8 +36,15 @@ namespace :crono do
 
   desc 'Restart crono'
   task :restart do
-    invoke 'crono:stop'
-    invoke 'crono:start'
+    on roles fetch(:crono_role) do
+      args = []
+      args.push "--piddir #{fetch(:crono_piddir)}"
+      args.push "--logfile #{fetch(:crono_log)}"
+      args.push "--environment #{fetch(:crono_env)}"
+      within release_path do
+        execute(:bundle, :exec, :crono, :restart, args.compact.join(' '))
+      end
+    end
   end
 end
 
