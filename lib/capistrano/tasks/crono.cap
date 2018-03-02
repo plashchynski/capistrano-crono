@@ -1,4 +1,4 @@
-def crono_args()
+def crono_args
   args = []
   args.push "--piddir #{fetch(:crono_piddir)}"
   args.push "--logfile #{fetch(:crono_log)}"
@@ -15,7 +15,7 @@ namespace :load do
 end
 
 namespace :crono do
-  desc "Start crono"
+  desc 'Start crono'
   task :start do
     on roles fetch(:crono_role) do
       within release_path do
@@ -24,7 +24,7 @@ namespace :crono do
     end
   end
 
-  desc "Stop crono"
+  desc 'Stop crono'
   task :stop do
     on roles fetch(:crono_role) do
       within release_path do
