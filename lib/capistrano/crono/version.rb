@@ -1,5 +1,5 @@
 module Capistrano
   module Crono
-    VERSION = '0.2.0.pre'
+    VERSION = '0.2.1'
   end
 end

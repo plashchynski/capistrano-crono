@@ -8,3 +8,8 @@
 
 - Fix Bundler loading issue
 - Requires Capistrano 3.*
+
+0.2.1
+-----------
+
+- Run Crono without deprecated flags

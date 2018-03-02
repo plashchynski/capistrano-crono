@@ -1,1 +1,1 @@
-load File.expand_path('../tasks/crono.cap', __FILE__)
+load File.expand_path('../tasks/crono.rake', __FILE__)

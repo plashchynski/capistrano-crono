@@ -28,7 +28,7 @@ Add the following to your Capfile
 Configurable options, with defaults:
 
     # deploy.rb
-    set :crono_pid, -> { File.join(shared_path, 'tmp', 'pids', 'crono.pid') }
+    set :crono_piddir, -> { File.join(shared_path, 'tmp', 'pids') }
     set :crono_env, -> { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
     set :crono_log, -> { File.join(shared_path, 'log', 'crono.log') }
     set :crono_role, -> { :app }
