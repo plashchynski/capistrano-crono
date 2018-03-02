@@ -8,7 +8,7 @@ end
 
 namespace :load do
   task :defaults do
-    set :pid_dir, -> { File.join(shared_path, 'tmp', 'pids') }
+    set :crono_piddir, -> { File.join(shared_path, 'tmp', 'pids') }
     set :crono_env, -> { fetch(:rack_env, fetch(:rails_env, fetch(:stage))) }
     set :crono_log, -> { File.join(shared_path, 'log', 'crono.log') }
     set :crono_role, -> { :app }
@@ -20,7 +20,7 @@ namespace :crono do
   task :start do
     on roles fetch(:crono_role) do
       args = []
-      args.push "--piddir #{pid_dir}"
+      args.push "--piddir #{fetch(:crono_piddir)}"
       args.push "--logfile #{fetch(:crono_log)}"
       args.push "--environment #{fetch(:crono_env)}"
       within release_path do
@@ -33,7 +33,7 @@ namespace :crono do
   task :stop do
     on roles fetch(:crono_role) do
       args = []
-      args.push "--piddir #{pid_dir}"
+      args.push "--piddir #{fetch(:crono_piddir)}"
       args.push "--logfile #{fetch(:crono_log)}"
       args.push "--environment #{fetch(:crono_env)}"
       within release_path do
